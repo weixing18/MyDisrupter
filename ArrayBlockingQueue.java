@@ -30,6 +30,7 @@ public class ArrayBlockingQueue<E>{
              wait.waitFor();
          }
          System.out.println("队列有位置了，生产者线程被唤醒，继续执行把数据放入数组中");
+         wait.setRetries(200);
          //把数据放入队列中
          enqueue(e);
     }
@@ -43,6 +44,7 @@ public class ArrayBlockingQueue<E>{
              wait.waitFor();
          }
          System.out.println("队列有数据了，消费者线程被唤醒，继续执行把数据取走的操作");
+         wait.setRetries(200);
         return dequeue();
     }
 
