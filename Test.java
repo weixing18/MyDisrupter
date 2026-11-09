@@ -3,7 +3,7 @@ public class Test {
     public static void main(String[] args) {
 
         //创建我自己定义的任务队列
-        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(16);
+        ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<>(16, new SleepingWaitStrategy());
         
         //启动一个生产者线程
         new Thread(new Runnable() {

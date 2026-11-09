@@ -11,10 +11,14 @@ public class ArrayBlockingQueue<E>{
     //写指针
     int putIndex;
 
+    //等待策略
+    WaitStrategy wait = new SleepingWaitStrategy();
+
     //队列的构造方法
-    public ArrayBlockingQueue(int capacity) {
+    public ArrayBlockingQueue(int capacity, WaitStrategy waitStrategy) {
         //初始化数组
         this.items = new Object[capacity];
+        this.wait = waitStrategy;
     }
 
 
@@ -23,6 +27,7 @@ public class ArrayBlockingQueue<E>{
         //队列存放数据的个数等于容器数组容量，就意味着队列满了
          while(count == items.length) {
              System.out.println("如果队列满了，生产者线程就在此阻塞");
+             wait.waitFor();
          }
          System.out.println("队列有位置了，生产者线程被唤醒，继续执行把数据放入数组中");
          //把数据放入队列中
@@ -35,6 +40,7 @@ public class ArrayBlockingQueue<E>{
         //队列存放数据的个数等于0，就意味着队列空了
          while(count == 0) {
              System.out.println("如果队列空了，消费者线程就在此阻塞");
+             wait.waitFor();
          }
          System.out.println("队列有数据了，消费者线程被唤醒，继续执行把数据取走的操作");
         return dequeue();
